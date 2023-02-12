@@ -4,6 +4,7 @@ namespace App\EventSubscriber;
 
 use App\Exception\RequestValidationException;
 use App\Model\Request\InputRequestInterface;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\ControllerArgumentsEvent;
@@ -28,10 +29,15 @@ class ControllerArgumentsSubscriber implements EventSubscriberInterface
 	/**
 	 * @throws RequestValidationException|\JsonException
 	 */
+	#[NoReturn]
 	public function onKernelControllerArguments(ControllerArgumentsEvent $event)
 	{
 		$request = $event->getRequest();
-		$content = json_encode(Request::METHOD_GET === $request->getMethod() ? $request->query->all() : $request->request->all(), JSON_THROW_ON_ERROR);
+		$content = json_encode(array_merge(
+			$request->query->all(),
+			$request->request->all(),
+			empty($request->getContent()) ? [] : json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR),
+		), JSON_THROW_ON_ERROR);
 		$arguments = $event->getNamedArguments();
 		$newArguments = [];
 

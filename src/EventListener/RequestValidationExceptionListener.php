@@ -7,7 +7,6 @@ use App\Response\JsonResponse;
 use App\Service\ValidationErrorFormatService;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
-use Symfony\Component\Validator\ConstraintViolationListInterface;
 
 class RequestValidationExceptionListener
 {
@@ -23,13 +22,11 @@ class RequestValidationExceptionListener
 			return;
 		}
 
-		$response = new JsonResponse($this->formatErrors($exception->getViolationList()), Response::HTTP_UNPROCESSABLE_ENTITY);
+		$response = new JsonResponse(
+			$this->validationErrorFormatService->formatErrors($exception->getViolationList()),
+			Response::HTTP_UNPROCESSABLE_ENTITY,
+		);
 
 		$event->setResponse($response);
-	}
-
-	public function formatErrors(ConstraintViolationListInterface $violationList): array
-	{
-		return $this->validationErrorFormatService->formatErrors($violationList);
 	}
 }
