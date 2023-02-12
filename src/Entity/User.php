@@ -15,9 +15,11 @@ use Symfony\Component\Uid\Uuid;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
 	public const ROLE_USER = 'ROLE_USER';
+	public const ROLE_ADMIN = 'ROLE_ADMIN';
 
 	public const ROLES = [
 		self::ROLE_USER,
+		self::ROLE_ADMIN,
 	];
 
 	public const PSEUDO_REGEX = '/^[A-Za-zÀ-ÿ0-9\'_.-]{1,20}$/';

@@ -38,7 +38,7 @@ class ValidationErrorFormatService
 	{
 		$errors = [];
 
-		/** @var ConstraintViolation $violation */
+		/* @var ConstraintViolation $violation */
 		foreach ($violationList as $violation) {
 			$errors[] = [
 				$violation->getPropertyPath() => [

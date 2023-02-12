@@ -23,6 +23,7 @@ class UserTransformer
 			$userOutput->setEmail($user->getEmail());
 		}
 
+		$userOutput->setId($user->getId());
 		$userOutput->setPseudo($user->getPseudo());
 		$userOutput->setTag($user->getTag());
 

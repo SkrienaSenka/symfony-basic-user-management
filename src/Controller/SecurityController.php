@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Manager\UserManager;
-use App\Model\Request\UserRegistrationInputRequest;
+use App\Model\Request\User\UserRegistrationInputRequest;
 use App\Response\JsonResponse;
 use App\Transformer\UserTransformer;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,9 +24,7 @@ class SecurityController extends AbstractController
 			return new JsonResponse(['message' => 'missing_credentials'], Response::HTTP_UNAUTHORIZED);
 		}
 
-		/**
-		 * @var User $user
-		 */
+		/* @var User $user */
 		$user = $this->getUser();
 
 		return new JsonResponse($this->userTransformer->transformToUserOutput($user));

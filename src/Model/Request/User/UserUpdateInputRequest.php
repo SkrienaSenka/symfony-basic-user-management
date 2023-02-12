@@ -1,36 +1,29 @@
 <?php
 
-namespace App\Model\Request;
+namespace App\Model\Request\User;
 
 use App\Entity\User;
+use App\Service\UserTagService;
 use App\Validator\UniqueEmail;
 use App\Validator\UniquePseudoTag;
 use App\Validator\UniqueUsername;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[Assert\GroupSequence(['UserRegistrationInputRequest', 'DatabaseRequestsNeeded'])]
+#[Assert\GroupSequence(['UserUpdateInputRequest', 'DatabaseRequestsNeeded'])]
 #[UniquePseudoTag(groups: ['DatabaseRequestsNeeded'])]
-class UserRegistrationInputRequest implements InputRequestInterface
+class UserUpdateInputRequest extends AbstractUserInputRequest
 {
-	#[Assert\NotBlank]
 	#[Assert\Regex(pattern: User::PSEUDO_REGEX)]
 	#[UniqueUsername(groups: ['DatabaseRequestsNeeded'])]
 	public $username;
 
-	#[Assert\NotBlank]
 	#[Assert\Regex(pattern: User::PSEUDO_REGEX)]
 	public $pseudo;
 
-	#[Assert\NotBlank]
-	#[Assert\Regex(pattern: '/^[0-9]{4}$/')]
+	#[Assert\Range(min: 0, max: UserTagService::MAX_TAG)]
 	public $tag;
 
-	#[Assert\NotBlank]
 	#[Assert\Email]
 	#[UniqueEmail(groups: ['DatabaseRequestsNeeded'])]
 	public $email;
-
-	#[Assert\NotBlank]
-	#[Assert\Regex(pattern: User::PASSWORD_REGEX)]
-	public $password;
 }

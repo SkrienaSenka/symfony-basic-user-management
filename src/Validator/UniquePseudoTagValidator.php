@@ -2,7 +2,8 @@
 
 namespace App\Validator;
 
-use App\Model\Request\UserRegistrationInputRequest;
+use App\Model\Request\User\AbstractUserInputRequest;
+use App\Model\Request\User\UserRegistrationInputRequest;
 use App\Repository\UserRepository;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
@@ -16,7 +17,7 @@ class UniquePseudoTagValidator extends ConstraintValidator
 
 	public function validate($value, Constraint $constraint)
 	{
-		if (!$value instanceof UserRegistrationInputRequest) {
+		if (!$value instanceof AbstractUserInputRequest) {
 			throw new UnexpectedTypeException($value, UserRegistrationInputRequest::class);
 		}
 

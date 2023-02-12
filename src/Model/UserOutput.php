@@ -3,15 +3,30 @@
 namespace App\Model;
 
 use App\Traits\PartiallyInitializedTrait;
+use Symfony\Component\Uid\Uuid;
 
 class UserOutput implements PartiallyInitializedModelInterface
 {
 	use PartiallyInitializedTrait;
 
+	public Uuid $id;
 	public string $username;
 	public string $pseudo;
 	public int $tag;
 	public string $email;
+
+	public function getId(): Uuid
+	{
+		return $this->id;
+	}
+
+	public function setId(Uuid $id): self
+	{
+		$this->id = $id;
+		$this->addInitializedProperty('id');
+
+		return $this;
+	}
 
 	public function getUsername(): string
 	{
