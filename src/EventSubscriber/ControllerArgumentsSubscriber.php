@@ -33,11 +33,7 @@ class ControllerArgumentsSubscriber implements EventSubscriberInterface
 	public function onKernelControllerArguments(ControllerArgumentsEvent $event)
 	{
 		$request = $event->getRequest();
-		$content = json_encode(array_merge(
-			$request->query->all(),
-			$request->request->all(),
-			empty($request->getContent()) ? [] : json_decode($request->getContent(), true, 512, JSON_THROW_ON_ERROR),
-		), JSON_THROW_ON_ERROR);
+		$content = json_encode(array_merge($request->query->all(), $request->request->all()), JSON_THROW_ON_ERROR);
 		$arguments = $event->getNamedArguments();
 		$newArguments = [];
 
