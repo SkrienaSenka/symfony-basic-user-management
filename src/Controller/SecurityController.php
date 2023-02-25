@@ -13,8 +13,10 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route(path: '/api/security')]
 class SecurityController extends AbstractController
 {
-	public function __construct(private readonly UserManager $userManager, private readonly UserTransformer $userTransformer)
-	{
+	public function __construct(
+		private readonly UserManager $userManager,
+		private readonly UserTransformer $userTransformer,
+	) {
 	}
 
 	#[Route(path: '/login', name: 'login', methods: ['POST'])]
@@ -28,6 +30,11 @@ class SecurityController extends AbstractController
 		$user = $this->getUser();
 
 		return new JsonResponse($this->userTransformer->transformToUserOutput($user));
+	}
+
+	#[Route('/logout', name: 'logout', methods: ['GET'])]
+	public function logout(): void
+	{
 	}
 
 	#[Route(path: '/register', name: 'register', methods: ['POST'])]
